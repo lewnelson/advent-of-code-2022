@@ -3,6 +3,7 @@ import prompt from 'prompt';
 import * as days from '~/days';
 import { getDayString } from '~/lib/days';
 import { execute } from '~/lib/execute';
+import * as constants from '~/constants';
 
 const promptForDay = async () => {
   console.log('Which day would you like to run?');
@@ -40,7 +41,7 @@ const promptForDay = async () => {
   const year = today.getFullYear();
   let values = Object.keys(dayMap);
   let defaultValue = undefined;
-  if (year === 2022 && month === 11 && day <= 25) {
+  if (year === constants.year && month === 11 && day <= 25) {
     defaultValue = day - 1;
     values = Object.keys(dayMap).slice(0, day);
   }
