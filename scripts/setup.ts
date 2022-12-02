@@ -5,10 +5,14 @@ import { paths } from '~/constants';
 
 const baseDir = paths.days;
 
-const setupBaseDir = () => {
-  if (!fs.existsSync(baseDir) || !fs.statSync(baseDir).isDirectory()) {
-    fs.mkdirSync(baseDir);
+const createDirIfNotExists = (dir: string) => {
+  if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) {
+    fs.mkdirSync(dir);
   }
+};
+
+const setupBaseDir = () => {
+  createDirIfNotExists(baseDir);
 };
 
 const renderTemplate = (template: string, parameters: Record<string, string>) => {
@@ -31,8 +35,8 @@ const writeFromTemplate = (dayDirectory: string, filename: string, parameters?: 
 const copyTemplate = (day: number) => {
   const dayString = getDayString(day);
   const dayDirectory = path.join(baseDir, `${day}_${getDayString(day)}`);
-  fs.mkdirSync(dayDirectory);
-  writeFromTemplate(dayDirectory, 'index.ts');
+  createDirIfNotExists(dayDirectory);
+  writeFromTemplate(dayDirectory, 'index.ts', { day: `${day}` });
   writeFromTemplate(dayDirectory, 'input.txt');
   writeFromTemplate(dayDirectory, 'index.test.ts', { day: dayString });
 };
@@ -42,7 +46,7 @@ const writeDaysIndex = () => {
   new Array(25).fill(null).map((_, i) => {
     const day = i + 1;
     const dayString = getDayString(day);
-    contents.push(`export { main as ${dayString} } from './${day}_${dayString}';`);
+    contents.push(`export * as ${dayString} from './${day}_${dayString}';`);
   });
 
   contents.push('');

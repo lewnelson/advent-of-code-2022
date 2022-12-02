@@ -1,7 +1,14 @@
-import { main } from './';
+import * as daySeventeen from './';
+import { TestCase } from '~/types';
 
 describe('daySeventeen', () => {
-  test('not implemented', () => {
-    expect(main('')).toBe('not implemented');
+  const testCases: TestCase[] = [
+    { description: 'not implemented', input: '', expectedOutput: 'not implemented' },
+  ];
+
+  describe('partOne', () => {
+    test.each(testCases)('$description', ({ input, expectedOutput }) => {
+      expect(daySeventeen.partOne(input)).toBe(expectedOutput);
+    });
   });
 });

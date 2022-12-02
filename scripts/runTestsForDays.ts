@@ -15,9 +15,14 @@ const main = async () => {
     return path.join('src', 'days', `${day}_${dayString}`, 'index.test.ts');
   });
 
-  await execa('jest', ['--', ...testPaths], {
-    stdio: 'inherit',
-  });
+  try {
+    await execa('jest', ['--', ...testPaths], {
+      stdio: 'inherit',
+    });
+    process.exit(0);
+  } catch (error) {
+    process.exit(1);
+  }
 };
 
 main();
