@@ -21,4 +21,15 @@ describe('dayFour', () => {
       expect(dayFour.partOne(input)).toBe(expectedOutput);
     });
   });
+
+  describe('partTwo', () => {
+    const testCases: TestCase[] = [
+      { description: 'when there are four pairs where the elves section assignments overlap', input: inputA, expectedOutput: 4 },
+      { description: 'when there is no input it returns 0', input: inputB, expectedOutput: 0 },
+    ];
+
+    test.each(testCases)('$description', ({ input, expectedOutput }) => {
+      expect(dayFour.partTwo(input)).toBe(expectedOutput);
+    });
+  });
 });
