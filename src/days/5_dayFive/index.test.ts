@@ -21,4 +21,14 @@ describe('dayFive', () => {
       expect(dayFive.partOne(input)).toBe(expectedOutput);
     });
   });
+
+  describe('partTwo', () => {
+    const testCases: TestCase[] = [
+      { description: 'For the given stack and instructions the output is MCD', input: inputA, expectedOutput: 'MCD' },
+    ];
+
+    test.each(testCases)('$description', ({ input, expectedOutput }) => {
+      expect(dayFive.partTwo(input)).toBe(expectedOutput);
+    });
+  });
 });

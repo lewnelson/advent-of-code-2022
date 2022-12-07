@@ -49,8 +49,8 @@ const parseInstruction = (instructionInput: string): Instruction | null => {
   if (!matches) return null;
   return {
     move: parseInt(matches[0]),
-    from: parseInt(matches[1]),
-    to: parseInt(matches[2]),
+    from: parseInt(matches[1]) - 1,
+    to: parseInt(matches[2]) - 1,
   };
 };
 
@@ -64,22 +64,41 @@ const parseInput = (input: string): ParsedInput => {
   return { stacks, instructions: instructionsInput.split('\n') };
 };
 
+const getStacksMessage = (stacks: ParsedInput['stacks']): string => {
+  return stacks.reduce((message, stack) => {
+    const item = stack.pop();
+    return `${message}${item ?? ''}`;
+  }, '');
+};
+
 export const partOne: Main = input => {
   const { stacks, instructions } = parseInput(input);
   instructions.forEach(line => {
     const instruction = parseInstruction(line);
     if (!instruction) return;
+    const { from, to, move } = instruction;
+    const fromStack = stacks[from];
+    const toStack = stacks[to];
 
-    for (let i = 0; i < instruction.move; i++) {
-      const fromStack = stacks[instruction.from - 1];
-      const toStack = stacks[instruction.to - 1];
+    for (let i = 0; i < move; i++) {
       const nextItem = fromStack.pop();
       if (nextItem) toStack.push(nextItem);
     }
   });
 
-  return stacks.reduce((message, stack) => {
-    const item = stack.pop();
-    return `${message}${item ?? ''}`;
-  }, '');
+  return getStacksMessage(stacks);
+};
+
+export const partTwo: Main = input => {
+  const { stacks, instructions } = parseInput(input);
+  instructions.forEach(line => {
+    const instruction = parseInstruction(line);
+    if (!instruction) return;
+    const { from, to, move } = instruction;
+    const fromStack = stacks[from];
+    const toStack = stacks[to];
+    toStack.push(...fromStack.splice(fromStack.length - move, move));
+  });
+
+  return getStacksMessage(stacks);
 };
