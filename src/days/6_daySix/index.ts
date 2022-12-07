@@ -6,10 +6,11 @@ const isUnique = (chars: string) => {
   return set.size === chars.length;
 };
 
-export const partOne: Main = input => {
-  let i = 4;
+const getFirstNUniqueIndex = (input: string, n: number) => {
+  if (input.length < n) return -1;
+  let i = n;
   while (i < input.length) {
-    const chars = input.slice(i - 4, i);
+    const chars = input.slice(i - n, i);
     if (isUnique(chars)) {
       return i;
     }
@@ -18,4 +19,12 @@ export const partOne: Main = input => {
   }
 
   return -1;
+};
+
+export const partOne: Main = input => {
+  return getFirstNUniqueIndex(input, 4);
+};
+
+export const partTwo: Main = input => {
+  return getFirstNUniqueIndex(input, 14);
 };

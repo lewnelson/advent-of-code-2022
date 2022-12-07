@@ -15,4 +15,18 @@ describe('daySix', () => {
       expect(daySix.partOne(input)).toBe(expectedOutput);
     });
   });
+
+  describe('partTwo', () => {
+    const testCases: Omit<TestCase, 'description'>[] = [
+      { input: 'mjqjpqmgbljsphdztnvjfqwrcgsmlb', expectedOutput: 19 },
+      { input: 'bvwbjplbgvbhsrlpgdmjqwftvncz', expectedOutput: 23 },
+      { input: 'nppdvjthqldpwncqszvftbrmjlhg', expectedOutput: 23 },
+      { input: 'nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg', expectedOutput: 29 },
+      { input: 'zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw', expectedOutput: 26 },
+    ];
+
+    test.each(testCases)('for the given input of $input the output is $expectedOutput', ({ input, expectedOutput }) => {
+      expect(daySix.partTwo(input)).toBe(expectedOutput);
+    });
+  });
 });
