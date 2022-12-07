@@ -35,4 +35,14 @@ describe('daySeven', () => {
       expect(daySeven.partOne(input)).toBe(expectedOutput);
     });
   });
+
+  describe('partTwo', () => {
+    const testCases: Omit<TestCase, 'description'>[] = [
+      { input: inputA, expectedOutput: 24933642 },
+    ];
+
+    test.each(testCases)('for the given input the output is $expectedOutput', ({ input, expectedOutput }) => {
+      expect(daySeven.partTwo(input)).toBe(expectedOutput);
+    });
+  });
 });
