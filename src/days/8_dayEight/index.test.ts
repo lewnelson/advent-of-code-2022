@@ -1,12 +1,18 @@
 import * as dayEight from './';
 import { TestCase } from '~/types';
 
-describe('dayEight', () => {
-  const testCases: TestCase[] = [
-    { description: 'not implemented', input: '', expectedOutput: 'not implemented' },
-  ];
+const inputA = `30373
+25512
+65332
+33549
+35390`;
 
+describe('dayEight', () => {
   describe('partOne', () => {
+    const testCases: TestCase[] = [
+      { description: 'for the given grid of trees a total of 21 trees are visible', input: inputA, expectedOutput: 21 },
+    ];
+
     test.each(testCases)('$description', ({ input, expectedOutput }) => {
       expect(dayEight.partOne(input)).toBe(expectedOutput);
     });
