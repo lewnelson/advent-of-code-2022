@@ -17,4 +17,14 @@ describe('dayEight', () => {
       expect(dayEight.partOne(input)).toBe(expectedOutput);
     });
   });
+
+  describe('partTwo', () => {
+    const testCases: TestCase[] = [
+      { description: 'for the given grid of trees the highest scenic score is 8', input: inputA, expectedOutput: 8 },
+    ];
+
+    test.each(testCases)('$description', ({ input, expectedOutput }) => {
+      expect(dayEight.partTwo(input)).toBe(expectedOutput);
+    });
+  });
 });
