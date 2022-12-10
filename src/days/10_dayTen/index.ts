@@ -61,3 +61,18 @@ export const partOne: Main = input => {
 
   return signalStrength;
 };
+
+export const partTwo: Main = input => {
+  const screen = new Array(6).fill(null).map(() => new Array(40).fill('.'));
+  const instructions = getInstructions(input);
+  processInstructions(instructions, (cycleCount, x) => {
+    const position = cycleCount - 1;
+    const row = Math.floor(position / 40);
+    const column = position % 40;
+    if (column >= x - 1 && column <= x + 1) {
+      if (screen[row] && screen[row][column]) screen[row][column] = '#';
+    }
+  });
+
+  return [[], [], ...screen].map(row => row.join('')).join('\n');
+};
