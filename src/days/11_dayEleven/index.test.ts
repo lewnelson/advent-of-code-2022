@@ -39,4 +39,14 @@ describe('dayEleven', () => {
       expect(dayEleven.partOne(input)).toBe(expectedOutput);
     });
   });
+
+  describe('partTwo', () => {
+    const testCases: TestCase[] = [
+      { description: 'based on the monkey slinging simultation the value of monkey business is 2713310158', input: inputA, expectedOutput: 2713310158 },
+    ];
+
+    test.each(testCases)('$description', ({ input, expectedOutput }) => {
+      expect(dayEleven.partTwo(input)).toBe(expectedOutput);
+    });
+  });
 });
