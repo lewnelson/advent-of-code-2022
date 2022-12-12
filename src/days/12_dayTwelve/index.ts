@@ -5,29 +5,15 @@ type Index = number;
 type StepCount = number;
 type Move = [Index, StepCount];
 
-const renderVisited = (nColumns: number, grid: string, visited: number[]) => {
-  let visitedGrid = '';
-  for (let i = 0; i < grid.length; i++) {
-    if (visited.includes(i)) {
-      visitedGrid += grid[i];
-    } else {
-      visitedGrid += '.';
-    }
-
-    if (i > 0 && (i + 1) % nColumns === 0) visitedGrid += '\n';
-  }
-
-  console.log(visitedGrid);
-};
-
 interface ShortestPathInput {
   grid: string;
   nColumns: number;
   start: number;
   end: number;
+  maxPathSize?: number
 }
 
-const getShortestPath = ({ grid, nColumns, start, end }: ShortestPathInput) => {
+const getShortestPath = ({ grid, nColumns, start, end, maxPathSize }: ShortestPathInput) => {
   const canMoveToChar = (grid: string, from: number, to: number) => {
     return grid.charCodeAt(to) - grid.charCodeAt(from)  <= 1;
   };
@@ -50,6 +36,7 @@ const getShortestPath = ({ grid, nColumns, start, end }: ShortestPathInput) => {
     while (moves[i]) {
       const currentMove = moves[i];
       const [currentIndex, steps] = currentMove;
+      if (maxPathSize && steps > maxPathSize) break;
       if (currentIndex === end) {
         shortestPath = steps;
         break;
@@ -99,4 +86,29 @@ export const partOne: Main = input => {
     start,
     end,
   });
+};
+
+export const partTwo: Main = input => {
+  const nColumns = input.slice(0, input.indexOf('\n')).length;
+  let grid = input.replace(/\n/g, '');
+  const end = grid.indexOf('E');
+  grid = grid.replace(/S/, 'a').replace(/E/, 'z');
+  const startingPositions = grid.split('').reduce((acc, char, index) => {
+    if (char === 'a') acc.push(index);
+    return acc;
+  }, [] as number[]);
+
+  let shortestPath = Infinity;
+  while (startingPositions.length > 0) {
+    const nextPosition = startingPositions.shift()!;
+    shortestPath = Math.min(shortestPath, getShortestPath({
+      grid,
+      nColumns,
+      start: nextPosition,
+      end,
+      maxPathSize: shortestPath,
+    }));
+  }
+
+  return shortestPath;
 };

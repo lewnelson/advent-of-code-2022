@@ -17,4 +17,14 @@ describe('dayTwelve', () => {
       expect(dayTwelve.partOne(input)).toBe(expectedOutput);
     });
   });
+
+  describe('partTwo', () => {
+    const testCases: TestCase[] = [
+      { description: 'for the given map the shortest possible starting position is 29 steps', input: inputA, expectedOutput: 29 },
+    ];
+
+    test.each(testCases)('$description', ({ input, expectedOutput }) => {
+      expect(dayTwelve.partTwo(input)).toBe(expectedOutput);
+    });
+  });
 });
