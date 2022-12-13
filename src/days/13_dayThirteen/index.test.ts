@@ -35,4 +35,14 @@ describe('dayThirteen', () => {
       expect(dayThirteen.partOne(input)).toBe(expectedOutput);
     });
   });
+
+  describe('partTwo', () => {
+    const testCases: TestCase[] = [
+      { description: 'for the given packets the decoder key is 140', input: inputA, expectedOutput: 140 },
+    ];
+
+    test.each(testCases)('$description', ({ input, expectedOutput }) => {
+      expect(dayThirteen.partTwo(input)).toBe(expectedOutput);
+    });
+  });
 });

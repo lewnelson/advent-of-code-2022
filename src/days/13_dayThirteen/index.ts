@@ -44,3 +44,24 @@ export const partOne: Main = input => {
 
   return sum;
 };
+
+export const partTwo: Main = input => {
+  const dividerPackets = [[[2]], [[6]]];
+  const packets = input.replace(/\n{2}/g, '\n').split('\n').map(line => JSON.parse(line));
+  packets.push(...dividerPackets);
+  packets.sort((packetA, packetB) => {
+    const order = getOrder(packetA, packetB);
+    if (order === 'left') return -1;
+    if (order === 'right') return 1;
+    return 0;
+  });
+
+  const decoderKey = dividerPackets.reduce((key, packet) => {
+    const index = packets.findIndex(p => JSON.stringify(p) === JSON.stringify(packet));
+    const packetNumber = index + 1;
+    if (key < 0) return packetNumber;
+    return key * packetNumber;
+  }, -1);
+
+  return decoderKey;
+};
