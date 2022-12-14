@@ -14,4 +14,14 @@ describe('dayFourteen', () => {
       expect(dayFourteen.partOne(input)).toBe(expectedOutput);
     });
   });
+
+  describe('partTwo', () => {
+    const testCases: TestCase[] = [
+      { description: '93 units of sand come to rest before the sand can no longer fall', input: inputA, expectedOutput: 93 },
+    ];
+
+    test.each(testCases)('$description', ({ input, expectedOutput }) => {
+      expect(dayFourteen.partTwo(input)).toBe(expectedOutput);
+    });
+  });
 });

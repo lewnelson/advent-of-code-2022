@@ -16,13 +16,14 @@ const down = ([x, y]: [x: number, y: number]): [number, number] => [x, y + 1];
 const downLeft = ([x, y]: [x: number, y: number]): [number, number] => [x - 1, y + 1];
 const downRight = ([x, y]: [x: number, y: number]): [number, number] => [x + 1, y + 1];
 
-const dropSand = (points: Points, lowestRock: number) => {
+const dropSand = (points: Points, { lowestRock, floor }: { lowestRock?: number, floor?: number }) => {
   const position = [500, 0] as [number, number];
   let canMove = true;
   while (canMove) {
     const nextPositions = [down(position), downLeft(position), downRight(position)];
     const nextPosition = nextPositions.reduce((nextPosition, position) => {
       if (nextPosition) return nextPosition;
+      if (typeof floor === 'number' && position[1] === floor) return nextPosition;
       if (!points[getCoordinate(...position)]) return position;
       return nextPosition;
     }, null as [number, number] | null);
@@ -30,10 +31,11 @@ const dropSand = (points: Points, lowestRock: number) => {
     if (!nextPosition) {
       canMove = false;
       points[getCoordinate(...position)] = Sand;
+      if (position[1] === 0) break;
     } else {
       position[0] = nextPosition[0];
       position[1] = nextPosition[1];
-      if (position[1] > lowestRock) return null;
+      if (typeof lowestRock === 'number' && position[1] > lowestRock) return null;
     }
   }
 
@@ -72,15 +74,17 @@ const getLowestRock = (points: Points) => {
   }, 0);
 };
 
-const getTotalSandDropped = (points: Points, lowestRock: number) => {
+const getTotalSandDropped = (points: Points, { lowestRock, floor }: { lowestRock?: number, floor?: number }) => {
+  if (lowestRock === undefined && floor === undefined) throw new Error('Must provide either lowestRock or floor');
   let totalSandDropped = 0;
-  let foundVoid = false;
-  while (!foundVoid) {
-    const position = dropSand(points, lowestRock);
+  let complete = false;
+  while (!complete) {
+    const position = dropSand(points, { lowestRock, floor });
     if (!position) {
-      foundVoid = true;
+      complete = true;
     } else {
       totalSandDropped += 1;
+      if (position[1] === 0) complete = true;
     }
   }
 
@@ -90,5 +94,12 @@ const getTotalSandDropped = (points: Points, lowestRock: number) => {
 export const partOne: Main = input => {
   const points = getPoints(input);
   const lowestRock = getLowestRock(points);
-  return getTotalSandDropped(points, lowestRock);
+  return getTotalSandDropped(points, { lowestRock });
+};
+
+export const partTwo: Main = input => {
+  const points = getPoints(input);
+  const lowestRock = getLowestRock(points);
+  const floor = lowestRock + 2;
+  return getTotalSandDropped(points, { floor });
 };
