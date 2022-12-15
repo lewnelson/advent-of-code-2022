@@ -18,12 +18,22 @@ Sensor at x=20, y=1: closest beacon is at x=15, y=3`;
 
 describe('dayFifteen', () => {
   describe('partOne', () => {
-  const testCases: TestCase[] = [
-    { description: 'for the given sensor data the number of positions on row 10 where a beacon cannot possibly be is 26', input: inputA, expectedOutput: 26 },
-  ];
+    const testCases: TestCase[] = [
+      { description: 'for the given sensor data the number of positions on row 10 where a beacon cannot possibly be is 26', input: inputA, expectedOutput: 26 },
+    ];
 
     test.each(testCases)('$description', ({ input, expectedOutput }) => {
       expect(dayFifteen.partOne(input)).toBe(expectedOutput);
+    });
+  });
+
+  describe('partTwo', () => {
+    const testCases: TestCase[] = [
+      { description: 'for tuning frequencty of the distress signal is 56000011', input: inputA, expectedOutput: 56000011 },
+    ];
+
+    test.each(testCases)('$description', ({ input, expectedOutput }) => {
+      expect(dayFifteen.partTwo(input)).toBe(expectedOutput);
     });
   });
 });

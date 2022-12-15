@@ -6,8 +6,8 @@
   "scripts": {
     "day": "ts-node -r tsconfig-paths/register ./src/index.ts",
     "setup": "ts-node -r tsconfig-paths/register ./scripts/setup.ts",
-    "test": "jest src",
-    "test:days": "ts-node -r tsconfig-paths/register ./scripts/runTestsForDays.ts"
+    "test": "TESTING=true jest src",
+    "test:days": "TESTING=true ts-node -r tsconfig-paths/register ./scripts/runTestsForDays.ts"
   },
   "keywords": [],
   "author": "",
